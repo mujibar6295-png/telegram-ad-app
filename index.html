@@ -59,7 +59,7 @@
 
     <div class="card">
         <h2>Watch & Earn</h2>
-        <p>ভিডিও বিজ্ঞাপনটি সম্পূর্ণ দেখুন এবং রিওয়ার্ড সংগ্রহ করুন।</p>
+        <p>Watch a short video ad to claim your reward!</p>
         <button id="adBtn" class="btn" onclick="playAd()">Watch Ad Now</button>
         <p id="status"></p>
     </div>
@@ -71,9 +71,7 @@
             tg.expand();
         }
 
-        // আপনার Adsgram Block ID টি এখানে কোটেশনের ভেতরে বসাবেন
         const BLOCK_ID = "50379";
-
         const AdController = window.Adsgram?.init({ blockId: BLOCK_ID });
 
         function playAd() {
@@ -81,17 +79,16 @@
             const status = document.getElementById("status");
 
             if (!AdController) {
-                status.innerText = "Ad network loading error!";
+                status.innerText = "Error loading ad network.";
                 return;
             }
 
             btn.disabled = true;
-            status.innerText = "অ্যাড লোড হচ্ছে...";
+            status.innerText = "Loading ad...";
 
             AdController.show().then((result) => {
-                status.innerText = "অভিনন্দন! রিওয়ার্ড প্রসেস হচ্ছে...";
+                status.innerText = "Success! Processing your reward...";
                 
-                // টেলিগ্রাম বটে ডেটা পাঠানো
                 if (tg) {
                     tg.sendData(JSON.stringify({
                         event: "ad_completed",
@@ -100,7 +97,7 @@
                     setTimeout(() => tg.close(), 1200);
                 }
             }).catch((err) => {
-                status.innerText = "অ্যাড শেষ হয়নি বা কোনো অ্যাড পাওয়া যায়নি।";
+                status.innerText = "Ad was not completed or no ad available.";
                 btn.disabled = false;
             });
         }
