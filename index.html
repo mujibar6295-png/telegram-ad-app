@@ -78,10 +78,8 @@
             btn.disabled = true;
             status.innerText = "Loading ad...";
 
-            // Check if Monetag show function is available
             if (typeof show_11922891 === 'function') {
-                show_11922891().then(() => {
-                    // Ad watched successfully
+                show_11922891('pop').then(() => {
                     status.innerText = "Success! Processing your reward...";
                     
                     if (tg) {
